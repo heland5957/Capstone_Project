@@ -1,0 +1,43 @@
+/* src/LandingPage.css */
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh; /* Full height of the viewport */
+    background-color: #fee869; /* Match the theme */
+  }
+  
+  .logo-container {
+    margin-bottom: 20px; /* Space between logo and text */
+  }
+  
+  .large-logo {
+    width: 500px; /* Double the original size */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .description {
+    text-align: center;
+    margin-bottom: 30px; /* Space between description and buttons */
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 20px; /* Space between buttons */
+  }
+  
+  .navigate-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .navigate-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  

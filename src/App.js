@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { FaUser, FaTasks } from 'react-icons/fa'; // Import the icons
 import Tasks from './Tasks';
+import LandingPage from './LandingPage';
+import Users from './Users'; // Import the Users component
 import './App.css';
 
 function App() {
+  const [currentView, setCurrentView] = useState('landing'); // Track the current view
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [user, setUser] = useState('');
   const [sortByUser, setSortByUser] = useState(false);
+  const users = [
+    { name: 'Admin', taskCount: 1 },
+    { name: 'User1', taskCount: 1 },
+    { name: 'User2', taskCount: 1 }
+  ]; // Sample users, replace with actual user data
 
   const addTask = () => {
     if (newTask.trim()) {
@@ -41,38 +49,62 @@ function App() {
     }
   });
 
+  const navigateToTasks = () => {
+    setCurrentView('tasks');
+  };
+
+  const navigateToUsers = () => {
+    setCurrentView('users');
+  };
+
+  const navigateToLanding = () => {
+    setCurrentView('landing');
+  };
+
   return (
     <div className="App">
-      <div className="logo-progress-container">
-        <img src={require('./logo.png')} alt="Task Tracker Logo" className="logo" />
-      </div>
+      {currentView === 'landing' && (
+        <LandingPage onNavigateToTasks={navigateToTasks} onNavigateToUsers={navigateToUsers} />
+      )}
+      {currentView === 'tasks' && (
+        <>
+          <button onClick={navigateToLanding} className="back-btn">Back</button>
+          <div className="logo-progress-container">
+            <img src={require('./logo.png')} alt="Task Tracker Logo" className="logo" />
+          </div>
+          <div className="input-container">
+            <input
+              type="text"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="Enter a new task"
+            />
+            <button onClick={addTask} className="add-btn"></button>
+            <input
+              type="text"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder="Assign user"
+              className="user-assign-input"
+            />
+            <button onClick={handleSortToggle} className="sort-btn">
+              {sortByUser ? <FaTasks size={24} /> : <FaUser size={24} />}
+            </button>
+          </div>
 
-      <div className="input-container">
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Enter a new task"
-        />
-        <button onClick={addTask} className="add-btn"></button>
-        <input
-          type="text"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-          placeholder="Assign user"
-          className="user-assign-input"
-        />
-        <button onClick={handleSortToggle} className="sort-btn">
-          {sortByUser ? <FaTasks size={24} /> : <FaUser size={24} />}
-        </button>
-      </div>
-
-      <Tasks
-        tasks={sortedTasks}
-        toggleTaskCompletion={toggleTaskCompletion}
-        removeTask={removeTask}
-        currentUser={user}
-      />
+          <Tasks
+            tasks={sortedTasks}
+            toggleTaskCompletion={toggleTaskCompletion}
+            removeTask={removeTask}
+            currentUser={user}
+          />
+        </>
+      )}
+      {currentView === 'users' && (
+        <>
+          <Users users={users} onBack={navigateToLanding} />
+        </>
+      )}
     </div>
   );
 }

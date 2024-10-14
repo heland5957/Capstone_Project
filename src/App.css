@@ -1,0 +1,189 @@
+/* Overall app styling */
+.App {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: #fee869; /* Updated to match logo background */
+  min-height: 100vh;
+}
+
+/* Container for logo and progress bar */
+.logo-progress-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  justify-content: center; /* Center items horizontally */
+  margin-bottom: 20px;
+  flex-direction: column; /* Optional: stack items vertically */
+}
+
+/* Progress bar wrapper */
+.progress-bar-wrapper {
+  max-width: 300px; /* Set a maximum width for the progress bar */
+  align-self: center; /* Align progress bar vertically */
+  margin-top: 10px; /* Space between logo and progress bar */
+}
+
+/* Page title styling */
+h1 {
+  color: #333;
+}
+
+/* Container for input field, add button, and dropdown menu */
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 750px; /* Set a specific width for the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Input field styling */
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+/* User assign input styling */
+input.user-assign-input {
+  width: 150px; /* Set a specific width for the user assignment input */
+  max-width: 150px;
+}
+
+/* Button styling */
+button.add-btn,
+button.complete-btn,
+button.undo-btn,
+button.remove-btn,
+button.sort-btn {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.add-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  font-size: 20px; /* Increase font size for visibility */
+}
+
+button.add-btn::before {
+  content: "+";
+}
+
+button.complete-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+button.undo-btn {
+  background-color: #2196F3; /* Blue */
+  color: white;
+}
+
+button.remove-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+button.sort-btn {
+  background-color: #FFC107; /* Amber */
+  color: white;
+}
+
+/* Icon styles */
+button svg {
+  font-size: 20px; /* Size of the icon */
+  vertical-align: middle; /* Align icon vertically */
+  color: inherit; /* Inherit color from the button */
+}
+
+/* Task list styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Add strikethrough for completed tasks */
+.task-item.completed {
+  text-decoration: line-through;
+  color: #888; /* Optional: Change text color for completed tasks */
+}
+
+/* Center the task box and adjust width based on content */
+li.task-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between; /* Space between task text and buttons */
+  align-items: center;
+  width: auto;
+}
+
+/* Task text and user styling */
+.task-item span {
+  flex-grow: 1;
+  text-align: left;
+}
+
+/* Container for task action buttons */
+.task-buttons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.task-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 20px; /* Size of the icon */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Icon colors for different actions */
+.complete-btn svg {
+  color: #4CAF50; /* Green */
+}
+
+.undo-btn svg {
+  color: #2196F3; /* Blue */
+}
+
+.remove-btn svg {
+  color: #f44336; /* Red */
+}
+
+/* Align icons horizontally within the task container */
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Task item hover effect */
+li.task-item:hover {
+  background-color: #f9f9f9; /* Light gray background on hover */
+}
+
+/* Ensure the background covers the full page */
+body {
+  background-color: #fee869; /* Updated to match logo background */
+  margin: 0;
+  min-height: 100vh;
+}

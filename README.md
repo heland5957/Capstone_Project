@@ -1,5 +1,6 @@
 CIS 480 Capstone Project
 -by Helijao (heland5957)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 For my project for this course, I decided to improve upon a Web Application that I have created in previous class but only has the main functions. In this class, my project will be to improve the application in terms of adding more features, more security measures and adding the ability to distribute the app in a form of web application, local software or mobile apps. For the moment, the app exist in my GitHub page through this link, and it is primarily a task tracker with a user assignment feature and all the functionality for each task. Here is a screen capture of what the web application is hosted on GitHub with the main functions active:
 

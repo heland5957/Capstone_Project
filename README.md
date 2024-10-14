@@ -19,7 +19,7 @@ I will add security measures that will allow adding tasks, adding users, use the
 
 ----Delivery Method---
 Each week, I will update on the progress of the application based on what was accomplished and what is expected to be accomplished. My goal for this course is to deliver a full fledged application that even I can use on my own devices. At first, I thought a mobile application will be feasible but I would focus more on productivity for business, rather than a casual.
------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Week 1--
 -Retrieve App and clean up
 -Decide on what features to implement (Visual, Security, Functionality)

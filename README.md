@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+CIS 480 Capstone Project
+-by Helijao (heland5957)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+For my project for this course, I decided to improve upon a Web Application that I have created in previous class but only has the main functions. In this class, my project will be to improve the application in terms of adding more features, more security measures and adding the ability to distribute the app in a form of web application, local software or mobile apps. For the moment, the app exist in my GitHub page through this link, and it is primarily a task tracker with a user assignment feature and all the functionality for each task. Here is a screen capture of what the web application is hosted on GitHub with the main functions active:
 
-## Available Scripts
+This is only a sample of what I could do during the course period but I wanted to improve with some features but I was limited in time. I wanted to improve upon the graphical tracking as well as it does not look satisfying at this time
 
-In the project directory, you can run:
+----Language----
+Javascript will be the preferred language for this application and I will keep using Javascript for implementing the additional features. I have done a bit of research and I saw that using Node.js to use the database will be necessary
 
-### `npm start`
+----Host----
+Currently, the app is hosted through GitHub pages which is basically online. I will keep that feature or have a combination of online host and server host depending on how heavy the application is.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-----Database Management---
+Database management will be a comnination of SQLite and Node.JS mainly to keep track of the tasks and the user assigned to.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-----Security Measures---
+I will add security measures that will allow adding tasks, adding users, use the functions of the tasks based on authorized users. The users will be likely stored in the database and only the admin will be able to have full control of the application
 
-### `npm test`
+----Delivery Method---
+Each week, I will update on the progress of the application based on what was accomplished and what is expected to be accomplished. My goal for this course is to deliver a full fledged application that even I can use on my own devices. At first, I thought a mobile application will be feasible but I would focus more on productivity for business, rather than a casual.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Week 1--
+-Retrieve App and clean up
+-Decide on what features to implement (Visual, Security, Functionality)
+-Gather Resources
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Week 2--
+-Laying the groundwork

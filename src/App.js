@@ -1,16 +1,19 @@
+// App.js
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaTasks, FaEye } from 'react-icons/fa'; // Import the icons
+import { FaUser, FaTasks, FaEye } from 'react-icons/fa';
 import Tasks from './Tasks';
 import LandingPage from './LandingPage';
+import Login from './Login'; // Import the Login component
 import './App.css';
 
 function App() {
-  const [currentView, setCurrentView] = useState('landing'); // Track the current view
+  const [currentView, setCurrentView] = useState('landing');
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [user, setUser] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState(''); // Track logged-in user
   const [sortByUser, setSortByUser] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // State for controlling popup visibility
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
   // Load tasks from the server on initial render
   useEffect(() => {
@@ -23,10 +26,9 @@ function App() {
     fetchTasks();
   }, []);
 
-  // Add a new task using the server
   const addTask = async () => {
     if (newTask.trim()) {
-      const newTaskData = { text: newTask, completed: false, user: user || 'None' };
+      const newTaskData = { text: newTask, completed: false, user: loggedInUser || 'None' };
       const response = await fetch('http://localhost:5000/tasks', {
         method: 'POST',
         headers: {
@@ -43,8 +45,6 @@ function App() {
 
   const toggleTaskCompletion = async (index) => {
     const updatedTask = { ...tasks[index], completed: !tasks[index].completed };
-
-    // Update the task on the server
     await fetch(`http://localhost:5000/tasks/${index}`, {
       method: 'PUT',
       headers: {
@@ -58,7 +58,6 @@ function App() {
   };
 
   const removeTask = async (index) => {
-    // Delete the task from the server
     await fetch(`http://localhost:5000/tasks/${index}`, {
       method: 'DELETE',
     });
@@ -87,7 +86,6 @@ function App() {
     setCurrentView('landing');
   };
 
-  // Function to get user task counts
   const getUserTaskCounts = () => {
     const userCounts = {};
     tasks.forEach(task => {
@@ -96,6 +94,15 @@ function App() {
       }
     });
     return userCounts;
+  };
+
+  // Function to handle View assigned user
+  const handleViewAssignedUsers = () => {
+    if (isLoggedIn) {
+      setIsPopupOpen(true); // Show the assigned users popup if logged in
+    } else {
+      alert('Please log in to view assigned users.');
+    }
   };
 
   return (
@@ -117,14 +124,7 @@ function App() {
               placeholder="Enter a new task"
             />
             <button onClick={addTask} className="add-btn"></button>
-            <input
-              type="text"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              placeholder="Assign user"
-              className="user-assign-input"
-            />
-            <button onClick={() => setIsPopupOpen(true)} className="red-btn">
+            <button onClick={handleViewAssignedUsers} className="red-btn">
               <FaEye size={24} />
             </button>
             <button onClick={handleSortToggle} className="sort-btn">
@@ -136,20 +136,25 @@ function App() {
             tasks={sortedTasks}
             toggleTaskCompletion={toggleTaskCompletion}
             removeTask={removeTask}
-            currentUser={user}
+            currentUser={loggedInUser} // Pass the logged-in user to Tasks
           />
 
           {isPopupOpen && (
             <div className="popup">
-              <h3>Assigned Users</h3>
-              <ul>
+              <h3>Assigned Users</h3>Logged-in As: {loggedInUser} {/* Display the logged-in user */}
+              <ul>              
                 {Object.entries(getUserTaskCounts()).map(([userName, count]) => (
                   <li key={userName}>{userName} - {count}</li>
-                ))}
+                ))}                
               </ul>
               <button onClick={() => setIsPopupOpen(false)} className="close-btn">X</button>
             </div>
           )}
+
+          <Login onLogin={(username) => { 
+            setIsLoggedIn(true); 
+            setLoggedInUser(username); // Set the logged-in user
+          }} />
         </>
       )}
     </div>

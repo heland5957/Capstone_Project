@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaTasks, FaEye } from 'react-icons/fa';
 import Tasks from './Tasks';
@@ -10,10 +9,11 @@ function App() {
   const [currentView, setCurrentView] = useState('landing');
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [loggedInUser, setLoggedInUser] = useState(''); // Track logged-in user
+  const [user, setUser] = useState('');
   const [sortByUser, setSortByUser] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  const [loggedInUser, setLoggedInUser] = useState(''); // Track logged-in user
 
   // Load tasks from the server on initial render
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
 
   const addTask = async () => {
     if (newTask.trim()) {
-      const newTaskData = { text: newTask, completed: false, user: loggedInUser || 'None' };
+      const newTaskData = { text: newTask, completed: false, user: user || 'None' };
       const response = await fetch('http://localhost:5000/tasks', {
         method: 'POST',
         headers: {
@@ -40,6 +40,7 @@ function App() {
       const addedTask = await response.json();
       setTasks([...tasks, addedTask]);
       setNewTask('');
+      setUser(''); // Clear the user field after adding the task
     }
   };
 
@@ -96,7 +97,7 @@ function App() {
     return userCounts;
   };
 
-  // Function to handle View assigned user
+  // Function to handle the click of the red button
   const handleViewAssignedUsers = () => {
     if (isLoggedIn) {
       setIsPopupOpen(true); // Show the assigned users popup if logged in
@@ -124,6 +125,13 @@ function App() {
               placeholder="Enter a new task"
             />
             <button onClick={addTask} className="add-btn"></button>
+            <input
+              type="text"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder="Assign user"
+              className="user-assign-input"
+            />
             <button onClick={handleViewAssignedUsers} className="red-btn">
               <FaEye size={24} />
             </button>
@@ -136,16 +144,17 @@ function App() {
             tasks={sortedTasks}
             toggleTaskCompletion={toggleTaskCompletion}
             removeTask={removeTask}
-            currentUser={loggedInUser} // Pass the logged-in user to Tasks
+            currentUser={user}
           />
 
           {isPopupOpen && (
             <div className="popup">
-              <h3>Assigned Users</h3>Logged-in As: {loggedInUser} {/* Display the logged-in user */}
-              <ul>              
+              <h3>Assigned Users</h3>
+              <p>Logged-In As: {loggedInUser}</p> {/* Display logged-in user */}
+              <ul>
                 {Object.entries(getUserTaskCounts()).map(([userName, count]) => (
                   <li key={userName}>{userName} - {count}</li>
-                ))}                
+                ))}
               </ul>
               <button onClick={() => setIsPopupOpen(false)} className="close-btn">X</button>
             </div>

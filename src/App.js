@@ -3,7 +3,6 @@ import { FaUser, FaTasks } from 'react-icons/fa'; // Import the icons
 import Tasks from './Tasks';
 import LandingPage from './LandingPage';
 import Users from './Users'; // Import the Users component
-import Cookies from 'js-cookie'; // Import js-cookie
 import './App.css';
 
 function App() {
@@ -19,41 +18,56 @@ function App() {
     { name: 'User2', taskCount: 1 }
   ]; // Sample users, replace with actual user data
 
-  // Load tasks from local storage or cookies on initial render
+  // Load tasks from the server on initial render
   useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const cookieTasks = JSON.parse(Cookies.get('tasks') || '[]');
-    
-    // Prioritize cookie tasks over local storage tasks
-    const initialTasks = cookieTasks.length ? cookieTasks : storedTasks;
-    console.log('Loaded tasks:', initialTasks); // Debug log
-    setTasks(initialTasks);
+    const fetchTasks = async () => {
+      const response = await fetch('http://localhost:5000/tasks');
+      const data = await response.json();
+      setTasks(data);
+    };
+    fetchTasks();
   }, []);
 
-  // Save tasks to local storage and cookies whenever tasks change
-  useEffect(() => {
-    console.log('Saving tasks:', tasks); // Debug log
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    Cookies.set('tasks', JSON.stringify(tasks), { expires: 7 }); // Expires in 7 days
-  }, [tasks]);
-
-  const addTask = () => {
+  // Add a new task using the server
+  const addTask = async () => {
     if (newTask.trim()) {
-      const updatedTasks = [...tasks, { text: newTask, completed: false, user: user || 'None' }];
-      console.log('Adding task:', updatedTasks); // Debug log
-      setTasks(updatedTasks);
+      const newTaskData = { text: newTask, completed: false, user: user || 'None' };
+      const response = await fetch('http://localhost:5000/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTaskData),
+      });
+
+      const addedTask = await response.json();
+      setTasks([...tasks, addedTask]);
       setNewTask('');
     }
   };
 
-  const toggleTaskCompletion = (index) => {
-    const updatedTasks = tasks.map((task, i) =>
-      i === index ? { ...task, completed: !task.completed } : task
-    );
+  const toggleTaskCompletion = async (index) => {
+    const updatedTask = { ...tasks[index], completed: !tasks[index].completed };
+    
+    // Update the task on the server
+    await fetch(`http://localhost:5000/tasks/${index}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedTask),
+    });
+
+    const updatedTasks = tasks.map((task, i) => (i === index ? updatedTask : task));
     setTasks(updatedTasks);
   };
 
-  const removeTask = (index) => {
+  const removeTask = async (index) => {
+    // Delete the task from the server
+    await fetch(`http://localhost:5000/tasks/${index}`, {
+      method: 'DELETE',
+    });
+
     const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
   };

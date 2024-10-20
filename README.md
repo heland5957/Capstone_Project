@@ -30,3 +30,10 @@ Week 2--
 -Laying the groundwork
 -Disregard content of User page - only placeholder
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+Week 3--
+-Updated app
+-Implemented perpetual storage
+-Added security functions for admin
+-Tested cookies and Node.js
+-Added User management function
+------------------------------------------------------------------------------------------------------------------------------------------------------------

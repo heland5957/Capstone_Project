@@ -203,3 +203,55 @@ body {
 .back-btn:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fee869;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it overlays other content */
+  text-align: center; /* Center align the text */
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.popup ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+  margin: 20px 0; /* Add margin above and below the list */
+}
+
+.popup li {
+  font-size: 18px; /* Increase font size */
+  margin: 10px 0; /* Add some spacing between items */
+}
+
+
+
+.red-btn {
+  background-color: red; /* Change to your preferred green shade */
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaTasks } from 'react-icons/fa'; // Import the icons
+import { FaUser, FaTasks, FaEye } from 'react-icons/fa'; // Import the icons
 import Tasks from './Tasks';
 import LandingPage from './LandingPage';
-import Users from './Users'; // Import the Users component
 import './App.css';
 
 function App() {
@@ -11,12 +10,7 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [user, setUser] = useState('');
   const [sortByUser, setSortByUser] = useState(false);
-
-  const users = [
-    { name: 'Admin', taskCount: 1 },
-    { name: 'User1', taskCount: 1 },
-    { name: 'User2', taskCount: 1 }
-  ]; // Sample users, replace with actual user data
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State for controlling popup visibility
 
   // Load tasks from the server on initial render
   useEffect(() => {
@@ -25,6 +19,7 @@ function App() {
       const data = await response.json();
       setTasks(data);
     };
+
     fetchTasks();
   }, []);
 
@@ -48,7 +43,7 @@ function App() {
 
   const toggleTaskCompletion = async (index) => {
     const updatedTask = { ...tasks[index], completed: !tasks[index].completed };
-    
+
     // Update the task on the server
     await fetch(`http://localhost:5000/tasks/${index}`, {
       method: 'PUT',
@@ -88,22 +83,29 @@ function App() {
     setCurrentView('tasks');
   };
 
-  const navigateToUsers = () => {
-    setCurrentView('users');
-  };
-
   const navigateToLanding = () => {
     setCurrentView('landing');
+  };
+
+  // Function to get user task counts
+  const getUserTaskCounts = () => {
+    const userCounts = {};
+    tasks.forEach(task => {
+      if (task.user) {
+        userCounts[task.user] = (userCounts[task.user] || 0) + 1;
+      }
+    });
+    return userCounts;
   };
 
   return (
     <div className="App">
       {currentView === 'landing' && (
-        <LandingPage onNavigateToTasks={navigateToTasks} onNavigateToUsers={navigateToUsers} />
+        <LandingPage onNavigateToTasks={navigateToTasks} />
       )}
       {currentView === 'tasks' && (
         <>
-          <button onClick={navigateToLanding} className="back-btn">Back</button>
+          <button onClick={navigateToLanding} className="back-btn" title="Go back to the landing page">Back</button>
           <div className="logo-progress-container">
             <img src={require('./logo.png')} alt="Task Tracker Logo" className="logo" />
           </div>
@@ -113,16 +115,21 @@ function App() {
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               placeholder="Enter a new task"
+              title="Type a new task"
             />
-            <button onClick={addTask} className="add-btn"></button>
+            <button onClick={addTask} className="add-btn" title="Add a new task"></button>
             <input
               type="text"
               value={user}
               onChange={(e) => setUser(e.target.value)}
               placeholder="Assign user"
               className="user-assign-input"
+              title="Type a user to assign to the task"
             />
-            <button onClick={handleSortToggle} className="sort-btn">
+            <button onClick={() => setIsPopupOpen(true)} className="red-btn" title="Show assigned users">
+              <FaEye size={24} />
+            </button>
+            <button onClick={handleSortToggle} className="sort-btn" title={sortByUser ? "Sort by task" : "Sort by user"}>
               {sortByUser ? <FaTasks size={24} /> : <FaUser size={24} />}
             </button>
           </div>
@@ -133,12 +140,20 @@ function App() {
             removeTask={removeTask}
             currentUser={user}
           />
-        </>
-      )}
-      {currentView === 'users' && (
-        <>
-          <button onClick={navigateToTasks} className="back-btn">Tasks</button>
-          <Users users={users} onBack={navigateToLanding} />
+
+          {isPopupOpen && (
+            <div className="popup">
+              <div className="popup-header">
+                <h3>Assigned Users</h3>                
+              </div>
+              <ul>
+                {Object.entries(getUserTaskCounts()).map(([userName, count]) => (
+                  <li key={userName}>{userName} - {count}</li>
+                ))}
+              </ul>
+              <button onClick={() => setIsPopupOpen(false)} className="close-btn">X</button>
+            </div>
+          )}
         </>
       )}
     </div>

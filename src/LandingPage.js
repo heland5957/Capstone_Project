@@ -5,11 +5,10 @@ const LandingPage = ({ onNavigateToTasks, onNavigateToUsers }) => {
   return (
     <div className="landing-page">
       <img src={require('./logo.png')} alt="Task Tracker Logo" className="large-logo" />
-      <h2>Welcome to Tracker App</h2>
-      <p>This is a Task Tracking App for Productivity<br/>Use the buttons below to view, add, remove and mark tasks as complete<br/>Or view assigned users</p>      
+      <h1>Welcome to Tracker App</h1>
+      <h2>This is a Task Tracking App for Productivity<br/>Use the button below to view, add, remove and mark tasks as complete</h2>      
       <div className="button-container">
-        <button onClick={onNavigateToTasks} className="navigate-btn">Go to Tasks</button>
-        <button onClick={onNavigateToUsers} className="navigate-btn">View Users</button>
+        <button onClick={onNavigateToTasks} className="navigate-btn">Go to Tasks</button>        
       </div>
     </div>
   );

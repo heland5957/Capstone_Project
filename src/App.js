@@ -105,7 +105,7 @@ function App() {
       )}
       {currentView === 'tasks' && (
         <>
-          <button onClick={navigateToLanding} className="back-btn" title="Go back to the landing page">Back</button>
+          <button onClick={navigateToLanding} className="back-btn">Back</button>
           <div className="logo-progress-container">
             <img src={require('./logo.png')} alt="Task Tracker Logo" className="logo" />
           </div>
@@ -115,21 +115,19 @@ function App() {
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               placeholder="Enter a new task"
-              title="Type a new task"
             />
-            <button onClick={addTask} className="add-btn" title="Add a new task"></button>
+            <button onClick={addTask} className="add-btn"></button>
             <input
               type="text"
               value={user}
               onChange={(e) => setUser(e.target.value)}
               placeholder="Assign user"
               className="user-assign-input"
-              title="Type a user to assign to the task"
             />
-            <button onClick={() => setIsPopupOpen(true)} className="red-btn" title="Show assigned users">
+            <button onClick={() => setIsPopupOpen(true)} className="red-btn">
               <FaEye size={24} />
             </button>
-            <button onClick={handleSortToggle} className="sort-btn" title={sortByUser ? "Sort by task" : "Sort by user"}>
+            <button onClick={handleSortToggle} className="sort-btn">
               {sortByUser ? <FaTasks size={24} /> : <FaUser size={24} />}
             </button>
           </div>
@@ -143,9 +141,7 @@ function App() {
 
           {isPopupOpen && (
             <div className="popup">
-              <div className="popup-header">
-                <h3>Assigned Users</h3>                
-              </div>
+              <h3>Assigned Users</h3>
               <ul>
                 {Object.entries(getUserTaskCounts()).map(([userName, count]) => (
                   <li key={userName}>{userName} - {count}</li>

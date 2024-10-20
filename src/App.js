@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaTasks } from 'react-icons/fa'; // Import the icons
 import Tasks from './Tasks';
 import LandingPage from './LandingPage';
 import Users from './Users'; // Import the Users component
+import Cookies from 'js-cookie'; // Import js-cookie
 import './App.css';
 
 function App() {
@@ -11,15 +12,35 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [user, setUser] = useState('');
   const [sortByUser, setSortByUser] = useState(false);
+
   const users = [
     { name: 'Admin', taskCount: 1 },
     { name: 'User1', taskCount: 1 },
     { name: 'User2', taskCount: 1 }
   ]; // Sample users, replace with actual user data
 
+  // Load tasks from local storage or cookies on initial render
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const cookieTasks = JSON.parse(Cookies.get('tasks') || '[]');
+    
+    // Prioritize cookie tasks over local storage tasks
+    const initialTasks = cookieTasks.length ? cookieTasks : storedTasks;
+    console.log('Loaded tasks:', initialTasks); // Debug log
+    setTasks(initialTasks);
+  }, []);
+
+  // Save tasks to local storage and cookies whenever tasks change
+  useEffect(() => {
+    console.log('Saving tasks:', tasks); // Debug log
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    Cookies.set('tasks', JSON.stringify(tasks), { expires: 7 }); // Expires in 7 days
+  }, [tasks]);
+
   const addTask = () => {
     if (newTask.trim()) {
       const updatedTasks = [...tasks, { text: newTask, completed: false, user: user || 'None' }];
+      console.log('Adding task:', updatedTasks); // Debug log
       setTasks(updatedTasks);
       setNewTask('');
     }
@@ -102,6 +123,7 @@ function App() {
       )}
       {currentView === 'users' && (
         <>
+          <button onClick={navigateToTasks} className="back-btn">Tasks</button>
           <Users users={users} onBack={navigateToLanding} />
         </>
       )}

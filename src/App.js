@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { FaUser, FaTasks, FaEye } from 'react-icons/fa';
 import Tasks from './Tasks';
 import LandingPage from './LandingPage';
-import Login from './Login'; // Import the Login component
+import Login from './Login';
 import './App.css';
+
+// Utility function to generate a random color
+const generateRandomColor = () => {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+};
 
 function App() {
   const [currentView, setCurrentView] = useState('landing');
@@ -12,8 +17,9 @@ function App() {
   const [user, setUser] = useState('');
   const [sortByUser, setSortByUser] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
-  const [loggedInUser, setLoggedInUser] = useState(''); // Track logged-in user
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState('');
+  const [userColors, setUserColors] = useState({}); // Store user color mappings
 
   // Load tasks from the server on initial render
   useEffect(() => {
@@ -28,7 +34,17 @@ function App() {
 
   const addTask = async () => {
     if (newTask.trim()) {
-      const newTaskData = { text: newTask, completed: false, user: user || 'None' };
+      const assignedUser = user || 'None';
+
+      // Assign a color if the user doesn't already have one
+      if (!userColors[assignedUser]) {
+        setUserColors((prevColors) => ({
+          ...prevColors,
+          [assignedUser]: generateRandomColor(),
+        }));
+      }
+
+      const newTaskData = { text: newTask, completed: false, user: assignedUser };
       const response = await fetch('http://localhost:5000/tasks', {
         method: 'POST',
         headers: {
@@ -40,7 +56,7 @@ function App() {
       const addedTask = await response.json();
       setTasks([...tasks, addedTask]);
       setNewTask('');
-      setUser(''); // Clear the user field after adding the task
+      setUser('');
     }
   };
 
@@ -97,10 +113,9 @@ function App() {
     return userCounts;
   };
 
-  // Function to handle the click of the red button
   const handleViewAssignedUsers = () => {
     if (isLoggedIn) {
-      setIsPopupOpen(true); // Show the assigned users popup if logged in
+      setIsPopupOpen(true);
     } else {
       alert('Please log in to view assigned users.');
     }
@@ -144,25 +159,27 @@ function App() {
             tasks={sortedTasks}
             toggleTaskCompletion={toggleTaskCompletion}
             removeTask={removeTask}
-            currentUser={user}
+            userColors={userColors} // Pass the user color map to Tasks component
           />
 
           {isPopupOpen && (
             <div className="popup">
               <h3>Assigned Users</h3>
-              <p>Logged-In As: {loggedInUser}</p> {/* Display logged-in user */}
+              <p>Logged-In As: {loggedInUser}</p>
               <ul>
                 {Object.entries(getUserTaskCounts()).map(([userName, count]) => (
-                  <li key={userName}>{userName} - {count}</li>
+                  <li key={userName} style={{ color: userColors[userName] }}>
+                    {userName} - {count}
+                  </li>
                 ))}
               </ul>
               <button onClick={() => setIsPopupOpen(false)} className="close-btn">X</button>
             </div>
           )}
 
-          <Login onLogin={(username) => { 
-            setIsLoggedIn(true); 
-            setLoggedInUser(username); // Set the logged-in user
+          <Login onLogin={(username) => {
+            setIsLoggedIn(true);
+            setLoggedInUser(username);
           }} />
         </>
       )}

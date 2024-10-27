@@ -42,5 +42,5 @@ Week 4--
 -Security features
 -Make it executable - 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-To use app, download folder and run --start.bat-- file. When asked to open another port, hit Y
+To use app, download repo and run --start.bat-- file. When asked to open another port, hit Y
 --------------------------------------------------------------------------------------------------------------------------------------------------------------

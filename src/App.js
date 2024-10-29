@@ -5,7 +5,6 @@ import LandingPage from './LandingPage';
 import Login from './Login';
 import './App.css';
 
-// Utility function to generate a random color
 const generateRandomColor = () => {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
@@ -19,24 +18,20 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState('');
-  const [userColors, setUserColors] = useState({}); // Store user color mappings
+  const [userColors, setUserColors] = useState({});
 
-  // Load tasks from the server on initial render
   useEffect(() => {
     const fetchTasks = async () => {
       const response = await fetch('http://localhost:5000/tasks');
       const data = await response.json();
       setTasks(data);
     };
-
     fetchTasks();
   }, []);
 
   const addTask = async () => {
     if (newTask.trim()) {
       const assignedUser = user || 'None';
-
-      // Assign a color if the user doesn't already have one
       if (!userColors[assignedUser]) {
         setUserColors((prevColors) => ({
           ...prevColors,
@@ -60,9 +55,11 @@ function App() {
     }
   };
 
-  const toggleTaskCompletion = async (index) => {
-    const updatedTask = { ...tasks[index], completed: !tasks[index].completed };
-    await fetch(`http://localhost:5000/tasks/${index}`, {
+  const toggleTaskCompletion = async (id) => {
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    const updatedTask = { ...tasks[taskIndex], completed: !tasks[taskIndex].completed };
+
+    await fetch(`http://localhost:5000/tasks/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -70,16 +67,16 @@ function App() {
       body: JSON.stringify(updatedTask),
     });
 
-    const updatedTasks = tasks.map((task, i) => (i === index ? updatedTask : task));
+    const updatedTasks = tasks.map((task) => (task.id === id ? updatedTask : task));
     setTasks(updatedTasks);
   };
 
-  const removeTask = async (index) => {
-    await fetch(`http://localhost:5000/tasks/${index}`, {
+  const removeTask = async (id) => {
+    await fetch(`http://localhost:5000/tasks/${id}`, {
       method: 'DELETE',
     });
 
-    const updatedTasks = tasks.filter((_, i) => i !== index);
+    const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
   };
 
@@ -88,11 +85,7 @@ function App() {
   };
 
   const sortedTasks = [...tasks].sort((a, b) => {
-    if (sortByUser) {
-      return a.user.localeCompare(b.user);
-    } else {
-      return a.text.localeCompare(b.text);
-    }
+    return sortByUser ? a.user.localeCompare(b.user) : a.text.localeCompare(b.text);
   });
 
   const navigateToTasks = () => {
@@ -159,7 +152,7 @@ function App() {
             tasks={sortedTasks}
             toggleTaskCompletion={toggleTaskCompletion}
             removeTask={removeTask}
-            userColors={userColors} // Pass the user color map to Tasks component
+            userColors={userColors}
           />
 
           {isPopupOpen && (

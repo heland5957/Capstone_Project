@@ -25,9 +25,9 @@ const Tasks = ({ tasks, toggleTaskCompletion, removeTask, currentUser }) => {
 
   return (
     <ul>
-      {tasks.map((task, index) => (
+      {tasks.map((task) => (
         <li
-          key={index}
+          key={task.id}  // Use task.id as the unique key
           className={`task-item ${task.completed ? 'completed' : ''}`}
         >
           <span>
@@ -38,7 +38,7 @@ const Tasks = ({ tasks, toggleTaskCompletion, removeTask, currentUser }) => {
             {/* Conditionally render Complete or Undo button */}
             {!task.completed && (
               <button
-                onClick={() => toggleTaskCompletion(index)}
+                onClick={() => toggleTaskCompletion(task.id)}  // Pass task.id instead of index
                 className="complete-btn"
               >
                 <FaCheck />
@@ -46,7 +46,7 @@ const Tasks = ({ tasks, toggleTaskCompletion, removeTask, currentUser }) => {
             )}
             {task.completed && (
               <button
-                onClick={() => toggleTaskCompletion(index)}
+                onClick={() => toggleTaskCompletion(task.id)}  // Pass task.id instead of index
                 className="undo-btn"
               >
                 <FaUndo />
@@ -54,7 +54,7 @@ const Tasks = ({ tasks, toggleTaskCompletion, removeTask, currentUser }) => {
             )}
             {/* Always show the Remove button */}
             <button
-              onClick={() => removeTask(index)}
+              onClick={() => removeTask(task.id)}  // Pass task.id instead of index
               className="remove-btn"
             >
               <FaTrash />
